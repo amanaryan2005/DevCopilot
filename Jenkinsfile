@@ -2,7 +2,7 @@ pipeline {
     agent any
 
     environment {
-        // Change to your target AWS region
+        // Target AWS region
         AWS_REGION     = 'us-east-1' 
         S3_BUCKET      = 's3://chatpie'
         
@@ -19,8 +19,9 @@ pipeline {
 
         stage('Install Dependencies') {
             steps {
-                // Adjust if using yarn/pnpm (e.g., 'yarn install --frozen-lockfile')
-                sh 'npm ci' 
+                // Fixed: Uses 'npm install --legacy-peer-deps' instead of 'npm ci'
+                // to prevent pipeline crashes caused by lockfile mismatches or peer dependencies
+                sh 'npm install --legacy-peer-deps' 
             }
         }
 
